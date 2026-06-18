@@ -135,6 +135,12 @@ ShowZxLiftConfig.Debug = {
 - Le système supporte plusieurs cordes simultanément
 - Les animations utilisent le dictionnaire d'animation personnalisé "deployrope@animation" et "ropelift@animation"
 
+## Notes des choses à rajouter
+
+- Mettre la logique pour empêcher de retirer la corde si une autre personne que lui utilise la corde
+- Je me questionne sur comment je peux faire pour que la corde ne reste pas suspendu dans les airs
+- meilleur animation
+
 ## Auteur
 
 **ShowZx**

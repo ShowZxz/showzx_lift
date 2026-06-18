@@ -265,6 +265,9 @@ RegisterNetEvent("showzx_lift:lifting", function(data)
     local startZ = bottom.z + 0.5
     local endZ = top.z - 0.25
     local t0 = GetGameTimer()
+    Support.isOnRope = true
+
+    debugMsg("Support.isOnRope net event lifting: ", Support.isOnRope)
 
     while true do
         local now = GetGameTimer()
@@ -305,6 +308,7 @@ RegisterNetEvent("showzx_lift:lifting", function(data)
         Wait(0)
     end
     FreezeEntityPosition(ped, false)
+    Support.isOnRope = false
     SetEntityVelocity(ped, 0.0, 0.0, 0.0)
     ClearPedTasks(ped)
 end)
@@ -337,6 +341,7 @@ RegisterNetEvent("showzx_lift:UnLifting", function(data)
 
     FreezeEntityPosition(ped, true)
     SetEntityVelocity(ped, 0.0, 0.0, 0.0)
+    Support.isOnRope = true
 
     while true do
         local now = GetGameTimer()
@@ -382,6 +387,7 @@ RegisterNetEvent("showzx_lift:UnLifting", function(data)
     FreezeEntityPosition(ped, false)
     SetEntityVelocity(ped, 0.0, 0.0, 0.0)
     ClearPedTasks(ped)
+    Support.isOnRope = false
 end)
 
 
