@@ -5,6 +5,8 @@ ListOfRopes = {} -- [ownerServerId] = { owner, topAnchor, bottomAnchor, visualRo
 
 ShowZxLift = {}
 
+PlayersOnRope = {} -- [playerServerId] = true
+
 
 RegisterNetEvent("showzx_lift:enableLiftMode", function()
     local ped = PlayerPedId()
@@ -146,8 +148,9 @@ RegisterNetEvent("showzx_lift:setRopeOwner", function(ropeData)
     local owner = ropeData.owner
     local topAnchor = ropeData.topAnchor
     local bottomAnchor = ropeData.bottomAnchor
+    local nameRope = ropeData.name
 
-    if not owner or not topAnchor or not bottomAnchor then
+    if not owner or not topAnchor or not bottomAnchor or not nameRope then
         debugMsg("showzx_lift: Incomplete rope data provided.")
         return
     end
@@ -241,13 +244,14 @@ RegisterNetEvent("showzx_lift:deleteRopeForOwner", function(owner)
     print(("showzx_lift: %s has been removed his rope "):format(name))
 end)
 
-RegisterNetEvent("showzx_lift:lifting", function(data)
+RegisterNetEvent("showzx_lift:lifting", function(data ,owner)
     if type(data) ~= "table" then return end
 
     if not data.bottomAnchor
         or not data.topAnchor
         or not data.landingPos
-        or not data.landingHeading then
+        or not data.landingHeading 
+        or not owner then
         print("showzx_lift:lifting: Incomplete lift data provided.")
         return
     end
@@ -266,6 +270,7 @@ RegisterNetEvent("showzx_lift:lifting", function(data)
     local endZ = top.z - 0.25
     local t0 = GetGameTimer()
     Support.isOnRope = true
+    TriggerServerEvent("showzx_lift:playerOnRope", true , owner) -- Notify the server that the player is now on the rope
 
     debugMsg("Support.isOnRope net event lifting: ", Support.isOnRope)
 
@@ -309,6 +314,7 @@ RegisterNetEvent("showzx_lift:lifting", function(data)
     end
     FreezeEntityPosition(ped, false)
     Support.isOnRope = false
+    TriggerServerEvent("showzx_lift:playerOnRope", false , owner) -- Notify the server that the player is no longer on the rope
     SetEntityVelocity(ped, 0.0, 0.0, 0.0)
     ClearPedTasks(ped)
 end)
@@ -390,4 +396,18 @@ RegisterNetEvent("showzx_lift:UnLifting", function(data)
     Support.isOnRope = false
 end)
 
+RegisterNetEvent("showzx_lift:notifyClientRopeStatus", function(playerServerId, isOnRope)
+    if not playerServerId then
+        debugMsg("showzx_lift: Invalid playerServerId provided for rope status notification.")
+        return
+    end
+
+    if isOnRope then
+        PlayersOnRope[playerServerId] = true
+        debugMsg(("showzx_lift: %s is now on your rope."):format(GetPlayerName(GetPlayerFromServerId(playerServerId)) or "Unknown"))
+    else
+        PlayersOnRope[playerServerId] = nil
+        debugMsg(("showzx_lift: %s is no longer on your rope."):format(GetPlayerName(GetPlayerFromServerId(playerServerId)) or "Unknown"))
+    end
+end)
 

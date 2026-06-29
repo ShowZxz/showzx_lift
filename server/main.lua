@@ -1,5 +1,6 @@
 local supports = {}
 listOfRopes = {}
+PlayersOnRope = {}
 
 RegisterNetEvent("showzx_lift:setMode", function(isLifting)
     supports[source] = isLifting
@@ -40,7 +41,8 @@ RegisterNetEvent("showzx_lift:addRopeOwner", function(ropeData)
         topAnchor = topAnchor,
         bottomAnchor = bottomAnchor,
         landingPos = landingPos,
-        landingHeading = landingHeading
+        landingHeading = landingHeading,
+        name = name
     }
     TriggerClientEvent("showzx_lift:setRopeOwner", -1, listOfRopes[source])
 end)
@@ -59,6 +61,7 @@ end)
 
 RegisterNetEvent("showzx_lift:liftStart", function(owner)
     local src = source
+    local ownerOfRope = owner
 
     if not owner then
         print("showzx_lift: Invalid owner provided for lift start.")
@@ -86,7 +89,7 @@ RegisterNetEvent("showzx_lift:liftStart", function(owner)
     end
 
     -- Start the lift for the player
-    TriggerClientEvent("showzx_lift:lifting", src, ropeData)
+    TriggerClientEvent("showzx_lift:lifting", src, ropeData, ownerOfRope)
     TriggerClientEvent("showzx_lift:playLiftAnim", src)
 end)
 
@@ -121,4 +124,28 @@ RegisterNetEvent("showzx_lift:unLiftStart", function(owner)
     -- Start the lift for the player
     TriggerClientEvent("showzx_lift:UnLifting", src, ropeData)
     TriggerClientEvent("showzx_lift:playUnliftAnim", src)
+end)
+
+RegisterNetEvent("showzx_lift:playerOnRope", function(isOnRope, owner)
+    local src = source
+
+    if not owner then print("showzx_lift: No owner provided")  return end
+    if isOnRope then
+        PlayersOnRope[src] = true
+        print(("showzx_lift: %s is now on the %s rope."):format(GetPlayerName(src) or "Unknown"), owner)
+        TriggerClientEvent("showzx_lift:notifyClientRopeStatus", owner, src, true)
+    else
+        PlayersOnRope[src] = nil
+        print(("showzx_lift: %s is no longer on the %s rope."):format(GetPlayerName(src) or "Unknown"), owner)
+        TriggerClientEvent("showzx_lift:notifyClientRopeStatus", owner, src, false)
+    end
+end)
+
+AddEventHandler("playerDropped", function(reason)
+    local src = source
+    if listOfRopes[src] then
+        print(("showzx_lift: %s dropped, removing their rope. Reason: %s"):format(GetPlayerName(src) or "Unknown", reason))
+        TriggerClientEvent("showzx_lift:deleteRopeForOwner", -1, src)
+        listOfRopes[src] = nil
+    end
 end)

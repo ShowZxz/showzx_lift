@@ -31,7 +31,7 @@ CreateThread(function()
 
 
             canInteract = function()
-                if isSupportStateValid(PlayerPedId()) and not Support.active and not Support.isOnRope then
+                if isSupportStateValid(PlayerPedId()) and not Support.active and not Support.isOnRope then  -- Support.isOnRope is a useless check i think
                     return true
                 end
 
@@ -51,7 +51,7 @@ CreateThread(function()
 
 
             canInteract = function()
-                if isSupportStateValid(PlayerPedId()) and Support.active and not Support.isOnRope then
+                if isSupportStateValid(PlayerPedId()) and Support.active and not Support.isOnRope and not PlayersOnRope then -- Support.isOnRope is a useless check i think
                     return true
                 end
 

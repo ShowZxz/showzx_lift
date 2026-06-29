@@ -22,6 +22,8 @@ RegisterCommand("lift", function()
         return
     end
 
+    
+
     TriggerServerEvent("showzx_lift:setMode", true)
 end)
 
@@ -35,14 +37,17 @@ RegisterCommand("lower", function()
         errorMsg("You are not in a valid state to retract the rope.")
         return
     end
-
-    print("Support.isOnRope: ", Support.isOnRope)
     if Support.isOnRope then
-        errorMsg("You are on the rope.")
+        errorMsg("You are on the rope, you can't do that.")
+        return
+    end
+    if PlayersOnRope then
+        errorMsg("There are someone on your rope")
         return
     end
 
     TriggerServerEvent("showzx_lift:setMode", false)
+    
 end)
 
 

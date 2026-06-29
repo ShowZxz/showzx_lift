@@ -137,9 +137,9 @@ ShowZxLiftConfig.Debug = {
 
 ## Notes des choses à rajouter
 
-- Mettre la logique pour empêcher de retirer la corde si une autre personne que lui utilise la corde
 - Je me questionne sur comment je peux faire pour que la corde ne reste pas suspendu dans les airs
 - meilleur animation
+- gestion des reset avec playerdrop
 
 ## Auteur
 
