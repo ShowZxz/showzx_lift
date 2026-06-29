@@ -10,8 +10,10 @@ RegisterNetEvent("showzx_lift:setMode", function(isLifting)
 end)
 
 RegisterNetEvent("showzx_lift:addRopeOwner", function(ropeData)
-
-    if type(ropeData) ~= "table" then print("showzx_lift: Invalid rope data provided.") return end
+    if type(ropeData) ~= "table" then
+        print("showzx_lift: Invalid rope data provided.")
+        return
+    end
 
     ropeData.owner = source
     local owner = ropeData.owner
@@ -28,13 +30,14 @@ RegisterNetEvent("showzx_lift:addRopeOwner", function(ropeData)
 
 
     local name = GetPlayerName(source) or "Unknown"
-    print(("showzx_lift: %s added a rope at top=(%.2f,%.2f,%.2f) bottom=(%.2f,%.2f,%.2f) landing=(%.2f,%.2f,%.2f) heading=(%.2f)"):format(
-        name,
-        topAnchor.x, topAnchor.y, topAnchor.z,
-        bottomAnchor.x, bottomAnchor.y, bottomAnchor.z,
-        landingPos.x, landingPos.y, landingPos.z,
-        landingHeading
-    ))
+    print(("showzx_lift: %s added a rope at top=(%.2f,%.2f,%.2f) bottom=(%.2f,%.2f,%.2f) landing=(%.2f,%.2f,%.2f) heading=(%.2f)")
+        :format(
+            name,
+            topAnchor.x, topAnchor.y, topAnchor.z,
+            bottomAnchor.x, bottomAnchor.y, bottomAnchor.z,
+            landingPos.x, landingPos.y, landingPos.z,
+            landingHeading
+        ))
 
     listOfRopes[source] = {
         owner = owner,
@@ -48,8 +51,14 @@ RegisterNetEvent("showzx_lift:addRopeOwner", function(ropeData)
 end)
 
 RegisterNetEvent("showzx_lift:removeRopeOwner", function(owner)
-    if not owner then print("showzx_lift: Invalid rope data provided.") return end
-    if source ~= owner then print("showzx_lift: Unauthorized attempt to remove rope owner.") return end
+    if not owner then
+        print("showzx_lift: Invalid rope data provided.")
+        return
+    end
+    if source ~= owner then
+        print("showzx_lift: Unauthorized attempt to remove rope owner.")
+        return
+    end
 
     local name = GetPlayerName(source) or "Unknown"
 
@@ -129,9 +138,15 @@ end)
 RegisterNetEvent("showzx_lift:playerOnRope", function(isOnRope, owner)
     local src = source
 
-    if not owner then print("showzx_lift: No owner provided")  return end
+    if not owner then
+        print("showzx_lift: No owner provided")
+        return
+    end
     if isOnRope then
-        PlayersOnRope[src] = true
+        PlayersOnRope[src] = {
+            owner = owner,
+            isOnRope = true
+        }
         print(("showzx_lift: %s is now on the %s rope."):format(GetPlayerName(src) or "Unknown"), owner)
         TriggerClientEvent("showzx_lift:notifyClientRopeStatus", owner, src, true)
     else
@@ -148,4 +163,28 @@ AddEventHandler("playerDropped", function(reason)
         TriggerClientEvent("showzx_lift:deleteRopeForOwner", -1, src)
         listOfRopes[src] = nil
     end
+
+    if PlayersOnRope[src] then
+        local playerData = PlayersOnRope[src]
+        if playerData then
+            local owner = playerData.owner
+            TriggerClientEvent("showzx_lift:notifyClientRopeStatus", owner, src, false)
+            PlayersOnRope[src] = nil
+        end
+    end
+    if supports[src] then
+        local playerSupport = supports[src]
+        if playerSupport then
+            supports[src] = nil
+        end
+        
+    end
+end)
+
+
+RegisterCommand("forceRemoveRope", function (id)
+
+    TriggerClientEvent("showzx_lift:deleteRopeForOwner", -1, id)
+    listOfRopes[id] = nil
+    
 end)

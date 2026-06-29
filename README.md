@@ -151,5 +151,5 @@ Vérifiez si une licence est fournie avec le script (LICENSE.md)
 
 ---
 
-**Support** : Pour des questions ou des bugs, consultez les logs du serveur en mode debug activé.
+**Support** : Pour des questions ou des bugs, mon discord : 
 

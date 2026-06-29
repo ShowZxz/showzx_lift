@@ -50,7 +50,6 @@ RegisterCommand("lower", function()
     
 end)
 
-
 RegisterNetEvent("showzx_lift:notifyClient", function(isLifting)
     if isLifting then
         TriggerEvent("showzx_lift:enableLiftMode")
