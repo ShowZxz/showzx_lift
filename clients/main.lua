@@ -8,6 +8,7 @@ ShowZxLift = {}
 PlayersOnRope = {} -- [playerServerId] = true
 
 
+
 RegisterNetEvent("showzx_lift:enableLiftMode", function()
     local ped = PlayerPedId()
     local pos = GetEntityCoords(ped)
@@ -401,7 +402,7 @@ RegisterNetEvent("showzx_lift:notifyClientRopeStatus", function(playerServerId, 
         debugMsg("showzx_lift: Invalid playerServerId provided for rope status notification.")
         return
     end
-
+    
     if isOnRope then
         PlayersOnRope[playerServerId] = true
         debugMsg(("showzx_lift: %s is now on your rope."):format(GetPlayerName(GetPlayerFromServerId(playerServerId)) or "Unknown"))
@@ -409,5 +410,6 @@ RegisterNetEvent("showzx_lift:notifyClientRopeStatus", function(playerServerId, 
         PlayersOnRope[playerServerId] = nil
         debugMsg(("showzx_lift: %s is no longer on your rope."):format(GetPlayerName(GetPlayerFromServerId(playerServerId)) or "Unknown"))
     end
+
 end)
 

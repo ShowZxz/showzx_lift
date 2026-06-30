@@ -13,7 +13,7 @@ ShowZxLiftConfig.Distances = {
 ShowZxLiftConfig.Cooldown = 3000
 
 ShowZxLiftConfig.Debug = {
-    ENABLED = false,
+    ENABLED = true,
 }
 
 ShowZxLiftConfig.Animation = {

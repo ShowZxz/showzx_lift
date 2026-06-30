@@ -140,6 +140,7 @@ ShowZxLiftConfig.Debug = {
 - Je me questionne sur comment je peux faire pour que la corde ne reste pas suspendu dans les airs
 - meilleur animation
 - gestion des reset avec playerdrop
+- voir une prévisualisation de l'emplacement de la corde
 
 ## Auteur
 

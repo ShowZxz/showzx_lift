@@ -37,3 +37,9 @@ function isSupportStateValid(ped)
 
     )
 end
+
+function displayHelpText()
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName("~INPUT_CONTEXT~ Pour placer la corde\nAppuie sur ~INPUT_VEH_DUCK~ pour ~r~stop~s~ la preview")
+    EndTextCommandDisplayHelp(0, false, true, -1)
+end

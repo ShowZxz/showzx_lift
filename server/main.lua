@@ -142,16 +142,17 @@ RegisterNetEvent("showzx_lift:playerOnRope", function(isOnRope, owner)
         print("showzx_lift: No owner provided")
         return
     end
+    print(owner)
     if isOnRope then
         PlayersOnRope[src] = {
             owner = owner,
             isOnRope = true
         }
-        print(("showzx_lift: %s is now on the %s rope."):format(GetPlayerName(src) or "Unknown"), owner)
+        print(("showzx_lift: %s is now on the (pedId) : %s rope."):format(GetPlayerName(src) or "Unknown", owner))
         TriggerClientEvent("showzx_lift:notifyClientRopeStatus", owner, src, true)
     else
         PlayersOnRope[src] = nil
-        print(("showzx_lift: %s is no longer on the %s rope."):format(GetPlayerName(src) or "Unknown"), owner)
+        print(("showzx_lift: %s is no longer on the (pedId) : %s rope."):format(GetPlayerName(src) or "Unknown", owner))
         TriggerClientEvent("showzx_lift:notifyClientRopeStatus", owner, src, false)
     end
 end)

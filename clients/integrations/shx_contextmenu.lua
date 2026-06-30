@@ -22,12 +22,12 @@ ECM:Register(function(screenPosition, hitSomething, worldPosition, hitEntity, no
 
     if isSupportStateValid(PlayerPedId()) and not Support.active and not Support.isOnRope then -- Support.isOnRope is a useless check i think
         ECM:AddItem(supportMenu, "Déployer une corde", function()
-            TriggerServerEvent("showzx_lift:setMode", true)
+            TriggerEvent("showzx_lift:previewMode")
         end)
     end
 
 
-    if isSupportStateValid(PlayerPedId()) and Support.active and not Support.isOnRope and not PlayersOnRope then -- Support.isOnRope is a useless check i think
+    if isSupportStateValid(PlayerPedId()) and Support.active and not Support.isOnRope and next(PlayersOnRope) == nil then -- Support.isOnRope is a useless check i think
         ECM:AddItem(supportMenu, "Retirer la corde", function()
             TriggerServerEvent("showzx_lift:setMode", false)
         end)
@@ -36,3 +36,5 @@ ECM:Register(function(screenPosition, hitSomething, worldPosition, hitEntity, no
 
 
 end)
+
+

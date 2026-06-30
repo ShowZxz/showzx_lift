@@ -39,7 +39,7 @@ CreateThread(function()
             end,
 
             onSelect = function()
-                TriggerServerEvent("showzx_lift:setMode", true)
+                TriggerEvent("showzx_lift:previewMode")
             end
         },
 
@@ -51,7 +51,7 @@ CreateThread(function()
 
 
             canInteract = function()
-                if isSupportStateValid(PlayerPedId()) and Support.active and not Support.isOnRope and not PlayersOnRope then -- Support.isOnRope is a useless check i think
+                if isSupportStateValid(PlayerPedId()) and Support.active and not Support.isOnRope and next(PlayersOnRope) == nil then -- Support.isOnRope is a useless check i think
                     return true
                 end
 
