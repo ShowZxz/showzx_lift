@@ -104,6 +104,7 @@ end)
 
 RegisterNetEvent("showzx_lift:unLiftStart", function(owner)
     local src = source
+    local ownerOfRope = owner
 
     if not owner then
         print("showzx_lift: Invalid owner provided for unlift start.")
@@ -131,7 +132,7 @@ RegisterNetEvent("showzx_lift:unLiftStart", function(owner)
     end
 
     -- Start the lift for the player
-    TriggerClientEvent("showzx_lift:UnLifting", src, ropeData)
+    TriggerClientEvent("showzx_lift:UnLifting", src, ropeData, ownerOfRope)
     TriggerClientEvent("showzx_lift:playUnliftAnim", src)
 end)
 

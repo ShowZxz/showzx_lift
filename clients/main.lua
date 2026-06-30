@@ -118,7 +118,7 @@ RegisterNetEvent("showzx_lift:enableLiftMode", function()
     Support.ownerId = nil
 
 
-    message("Lift mode enabled.")
+    message("Rope déployé.")
     -- Envoie au serveur les informations de la corde pour qu'il puisse les partager avec les autres joueurs
     TriggerServerEvent("showzx_lift:addRopeOwner", ropeData)
 end)
@@ -320,13 +320,14 @@ RegisterNetEvent("showzx_lift:lifting", function(data ,owner)
     ClearPedTasks(ped)
 end)
 
-RegisterNetEvent("showzx_lift:UnLifting", function(data)
+RegisterNetEvent("showzx_lift:UnLifting", function(data, owner)
     if type(data) ~= "table" then return end
 
     if not data.bottomAnchor
         or not data.topAnchor
         or not data.landingPos
-        or not data.landingHeading then
+        or not data.landingHeading 
+        or not owner then
         print("showzx_lift:lifting: Incomplete lift data provided.")
         return
     end
@@ -375,7 +376,7 @@ RegisterNetEvent("showzx_lift:UnLifting", function(data)
     local endZ = bottom.z +
     1.25                         -- Adjusted to ensure the player lands slightly above the bottom anchor to avoid clipping into the ground
     local t0 = GetGameTimer()
-
+    TriggerServerEvent("showzx_lift:playerOnRope", true , owner) -- Notify the server that the player is now on the rope
     Wait(150)
     while true do
         local now = GetGameTimer()
@@ -395,6 +396,7 @@ RegisterNetEvent("showzx_lift:UnLifting", function(data)
     SetEntityVelocity(ped, 0.0, 0.0, 0.0)
     ClearPedTasks(ped)
     Support.isOnRope = false
+    TriggerServerEvent("showzx_lift:playerOnRope", false , owner) -- Notify the server that the player is now on the rope
 end)
 
 RegisterNetEvent("showzx_lift:notifyClientRopeStatus", function(playerServerId, isOnRope)

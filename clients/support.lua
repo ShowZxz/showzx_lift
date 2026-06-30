@@ -10,26 +10,7 @@ Support = {
 }
 
 
-RegisterCommand("lift", function()
-    if Support.active then
-        errorMsg("You are already in lift mode.")
-        return
-    end
 
-    if not isSupportStateValid(PlayerPedId()) then
-        errorMsg("You are not in a valid state to deploy the rope.")
-        return
-    end
-
-    if Support.isOnRope then
-        errorMsg("You are already on the rope.")
-        return
-    end
-
-
-
-    TriggerServerEvent("showzx_lift:setMode", true)
-end)
 
 RegisterCommand("lower", function()
     if not Support.active then
