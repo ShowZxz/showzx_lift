@@ -25,13 +25,18 @@ ShowZx Lift est un système de levage par corde complet qui permet aux joueurs d
 ### Commandes
 
 ```
-/lift    - Active le mode levage (déploie la corde)
+/rope    - Active le mode levage (déploie la corde)
 /lower   - Désactive le mode levage (rétracte la corde)
 ```
+
+### ox_target ou ContextMenu (détection automatique)
+
+effectuer un alt click pour voir le menu de la rope
 
 ### Contrôles
 
 - **E** - Interagir avec la corde
+- **X** - Sortir de la preview
 
 ## Configuration
 
@@ -86,11 +91,14 @@ showzx_lift/
 │   ├── main.lua          # Logique principale du client
 │   ├── support.lua       # Gestion du mode support
 │   ├── functions.lua     # Fonctions utilitaires
-│   ├── event.lua         # Gestion des événements
-│   └── threads.lua       # Boucles de jeu
-├── server/               # Scripts côté serveur
+│   ├── event.lua         # Gestion des événements (lecture des animations)
+│   ├── threads.lua       # Boucles de jeu (tout les thread et leurs gestions)
+    └── integrations/     # Gestions des ALT+ Click
+        ├── ox_target.lua         # Troisième oeil 
+        └── shx_contextmenu.lua   # le célèbre ALT+ Click de Flashback WL         
+├── server/              # Scripts côté serveur
 │   └── main.lua         # Logique serveur
-└── stream/              # Fichiers de streaming (modèles, etc.)
+└── stream/              # Fichiers de streaming (animation, etc.)
 ```
 
 ## Installation
@@ -112,11 +120,15 @@ showzx_lift/
 - Gère les propriétaires de corde
 - Synchronise les états entre les joueurs
 - Enregistre les logs des actions
+- Notifie le client que une personne est sur sa rope
 
 ### Validation
 - Détection automatique du sol sous la corde
 - Vérification de la longueur minimale (10m) et maximale (50m)
 - Système de cooldown pour éviter les abus
+
+### Nettoyage Automatique
+- Le serveur gére les crash ou les déconnexions pour clean tout les client
 
 ## Debug
 
@@ -138,9 +150,8 @@ ShowZxLiftConfig.Debug = {
 ## Notes des choses à rajouter
 
 - Je me questionne sur comment je peux faire pour que la corde ne reste pas suspendu dans les airs
-- meilleur animation
-- gestion des reset avec playerdrop
-- voir une prévisualisation de l'emplacement de la corde
+- Meilleur animation
+- La corde traverse les wall et prends du temps a être complétement droit
 
 ## Auteur
 
@@ -152,5 +163,5 @@ Vérifiez si une licence est fournie avec le script (LICENSE.md)
 
 ---
 
-**Support** : Pour des questions ou des bugs, mon discord : 
+**Support** : Pour des questions ou des bugs, mon discord : https://discord.gg/KRecJhw3mn
 
